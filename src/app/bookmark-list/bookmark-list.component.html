@@ -1,0 +1,16 @@
+<div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="32px">
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
+    <div fxFlex></div>
+    <button mat-raised-button (click)="onAddBookmark()">
+      ADD NEW BOOKMARK
+    </button>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="16px">
+    <bookmark-card
+      *ngFor="let bookmark of bookmarks$ | async"
+      [data]="bookmark"
+      (edit)="onEditBookmark(bookmark)"
+      (delete)="onDeleteBookmark(bookmark?.id)"
+    ></bookmark-card>
+  </div>
+</div>

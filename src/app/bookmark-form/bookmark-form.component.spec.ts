@@ -60,14 +60,12 @@ describe('BookmarkFormComponent', () => {
 
   it('should initialize all possible bookmark groups', () => {
     expect(component.bookmarkGroups.length).toEqual(
-      Object.values(BookmarkGroup).length
+      Object.values(BookmarkGroup).length,
     );
   });
 });
 
-const mockBookmark = () =>
-  ({ id: '1', name: 'baraluga', url: 'hornpub.com' } as Bookmark);
-const mockDialogRef = () =>
-  ({
-    close: (_) => {},
-  } as MatDialogRef<BookmarkFormComponent>);
+const mockBookmark = () => ({ id: '1', name: 'baraluga', url: 'hornpub.com' } as Bookmark);
+const mockDialogRef = () => ({
+  close: (_) => {},
+} as MatDialogRef<BookmarkFormComponent>);

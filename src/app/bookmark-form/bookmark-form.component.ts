@@ -12,12 +12,14 @@ import { FormMode } from './bookmark-form.models';
 })
 export class BookmarkFormComponent {
   readonly bookmarkForm;
+
   readonly mode: FormMode;
+
   readonly bookmarkGroups: string[];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data: Partial<Bookmark>,
-    private dialogRef: MatDialogRef<BookmarkFormComponent, Partial<Bookmark>>
+    private dialogRef: MatDialogRef<BookmarkFormComponent, Partial<Bookmark>>,
   ) {
     this.bookmarkForm = this.createBookmarkForm(data);
     this.mode = this.resolveMode(data);
@@ -43,7 +45,7 @@ export class BookmarkFormComponent {
   }
 
   private createBookmarkForm(
-    initial: Partial<Bookmark>
+    initial: Partial<Bookmark>,
   ): FormGroup<Partial<Bookmark>> {
     const { name, group, url } = initial;
     return new FormGroup<Partial<Bookmark>>({

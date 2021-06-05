@@ -5,7 +5,7 @@ import { ActionHandlers, bookmarksReducer } from './bookmark-manager.reducer';
 describe('BookmarksReducer', () => {
   it('should provide a valid reducer', () => {
     expect(
-      bookmarksReducer(undefined, BookmarksActions.addBookmark)
+      bookmarksReducer(undefined, BookmarksActions.addBookmark),
     ).toBeTruthy();
   });
 

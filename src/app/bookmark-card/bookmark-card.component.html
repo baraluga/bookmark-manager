@@ -1,0 +1,26 @@
+<div
+  fxLayout="column"
+  fxLayoutAlign="start stretch"
+  fxLayoutGap="16px"
+  class="bookmark-card"
+>
+  <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="8px">
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <span class="bookmark-card-name">{{ data?.name }}</span>
+      <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="16px">
+        <button mat-icon-button color="primary" (click)="edit.emit()">
+          <mat-icon color="primary">edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="delete.emit()">
+          <mat-icon color="warn">clear</mat-icon>
+        </button>
+      </div>
+    </div>
+    <span class="bookmark-card-url">{{ data?.url }}</span>
+    <div class="bookmark-card-preview"></div>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="end end" *ngIf="data?.group">
+    <span class="bookmark-card-group">{{ data?.group }}</span>
+  </div>
+</div>

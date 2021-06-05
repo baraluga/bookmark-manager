@@ -19,19 +19,19 @@ describe('BookmarksStoreService', () => {
   it('should dispatch the addBookmark action', () => {
     service.addBookmark(mockBookmark());
     expect(dispatchSpy).toHaveBeenCalledWith(
-      BookmarksActions.addBookmark(mockBookmark())
+      BookmarksActions.addBookmark(mockBookmark()),
     );
   });
   it('should dispatch the editBookmark action', () => {
     service.editBookmark(mockBookmark());
     expect(dispatchSpy).toHaveBeenCalledWith(
-      BookmarksActions.editBookmark(mockBookmark())
+      BookmarksActions.editBookmark(mockBookmark()),
     );
   });
   it('should dispatch the deleteBookmark action', () => {
     service.deleteBookmark('1');
     expect(dispatchSpy).toHaveBeenCalledWith(
-      BookmarksActions.deleteBookmark({ id: '1' })
+      BookmarksActions.deleteBookmark({ id: '1' }),
     );
   });
 });
@@ -39,7 +39,7 @@ describe('BookmarksStoreService', () => {
 const mockStore = () =>
   ({
     pipe: () => of({ 1: mockBookmark() } as BookmarksState),
-    dispatch: (_) => {},
+    dispatch: (_) => _,
   } as Store<BookmarksState>);
 const mockBookmark = () =>
   ({

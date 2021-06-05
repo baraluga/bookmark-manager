@@ -3,17 +3,17 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BookmarksActions } from './bookmark-manager.actions';
-import { Bookmark, BookmarksState } from './bookmark-manager.models';
+import { Bookmark } from './bookmark-manager.models';
 
 @Injectable()
 export class BookmarksStoreService {
   readonly bookmarkList$: Observable<Bookmark[]>;
 
-  constructor(private store: Store<BookmarksState>) {
+  constructor(private store: Store) {
     this.bookmarkList$ = store.pipe(map((state) => Object.values(state)));
   }
 
-  addBookmark(bookmark: Bookmark): void {
+  addBookmark(bookmark: Partial<Bookmark>): void {
     this.store.dispatch(BookmarksActions.addBookmark(bookmark));
   }
 
