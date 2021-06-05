@@ -1,6 +1,5 @@
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { BookmarksActions } from './bookmark-manager.actions';
 import { Bookmark, BookmarksState } from './bookmark-manager.models';
 import { BookmarksStoreService } from './bookmarks-store.service';
@@ -46,6 +45,5 @@ const mockBookmark = () =>
   ({
     id: '1',
     name: 'bookmark1',
-    tags: ['personal'],
     url: 'www.google.com',
   } as Bookmark);

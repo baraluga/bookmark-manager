@@ -1,1 +1,40 @@
-<p>bookmark-form works!</p>
+<div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="32px">
+  <div
+    fxLayout="column"
+    fxLayoutAlign="start stretch"
+    fxLayoutGap="16px"
+    [formGroup]="bookmarkForm"
+  >
+    <h1>{{ mode | titlecase }} Bookmark</h1>
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" />
+      <mat-error>A name is required</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>URL</mat-label>
+      <input matInput formControlName="url" />
+      <mat-error>A URL is required</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Group</mat-label>
+      <mat-select formControlName="group">
+        <mat-option *ngFor="let group of bookmarkGroups" [value]="group">
+          {{ group | titlecase }}
+        </mat-option>
+      </mat-select>
+      <mat-hint *ngIf="bookmarkForm?.value?.group">
+        This bookmark will be "ungrouped"
+      </mat-hint>
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="end end" fxLayoutGap="16px">
+    <button mat-button>CANCEL</button>
+    <button mat-flat-button *ngIf="mode === 'add'; else edit" color="primary">
+      ADD
+    </button>
+    <ng-template #edit>
+      <button mat-flat-button>EDIT</button>
+    </ng-template>
+  </div>
+</div>

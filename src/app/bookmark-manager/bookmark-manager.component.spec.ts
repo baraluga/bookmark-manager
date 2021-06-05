@@ -43,5 +43,4 @@ const mockService = () =>
     addBookmark: (_) => {},
     editBookmark: (_) => {},
   } as BookmarksStoreService);
-const mockBookmark = () =>
-  ({ id: '0', name: '', tags: [], url: '' } as Bookmark);
+const mockBookmark = () => ({ id: '0', name: '', url: '' } as Bookmark);

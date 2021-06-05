@@ -22,4 +22,4 @@ describe('BookmarksReducer', () => {
 });
 
 const mockBookmark = () =>
-  ({ id: '1', name: 'bookmark1', tags: [], url: 'google.com' } as Bookmark);
+  ({ id: '1', name: 'bookmark1', url: 'google.com' } as Bookmark);
