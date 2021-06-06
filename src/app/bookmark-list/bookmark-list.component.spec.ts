@@ -1,9 +1,9 @@
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { of, Subject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { skip, take } from 'rxjs/operators';
 import { BookmarkFormComponent } from '../bookmark-form';
 import { BookmarksStoreService } from '../store';
-import { Bookmark } from '../store/bookmark-manager.models';
+import { Bookmark, BookmarkGroup } from '../store/bookmark-manager.models';
 import { BookmarkListComponent } from './bookmark-list.component';
 
 describe('BookmarkListComponent', () => {
@@ -28,10 +28,13 @@ describe('BookmarkListComponent', () => {
   });
 
   it('should provide the bookmarks via store service', (done) => {
-    component.bookmarks$.pipe(take(1)).subscribe((bookmarks) => {
+    component.bookmarks$.pipe(skip(1), take(1)).subscribe((bookmarks) => {
+      expect(bookmarks.length).toEqual(1);
       expect(bookmarks[0].id).toEqual('0');
+      expect(bookmarks[0].group).toEqual(BookmarkGroup.PERSONAL);
       done();
     });
+    component.onActiveChipsChange([BookmarkGroup.PERSONAL]);
   });
 
   it('should liaise with store service for addBookmark', (done) => {
@@ -66,13 +69,13 @@ describe('BookmarkListComponent', () => {
 
 const mockService = () =>
   ({
-    bookmarkList$: of([mockBookmark()]),
+    bookmarkList$: of([mockBookmark(), mockBookmark(BookmarkGroup.PERSONAL)]),
     deleteBookmark: (_) => {},
     addBookmark: (_) => {},
     editBookmark: (_) => {},
   } as BookmarksStoreService);
-const mockBookmark = () =>
-  ({ id: '0', name: 'baraluga', url: 'hornpub.com' } as Bookmark);
+const mockBookmark = (group?: BookmarkGroup) =>
+  ({ id: '0', name: 'baraluga', url: 'hornpub.com', group } as Bookmark);
 const afterClosedSubject = new Subject<Partial<Bookmark>>();
 const mockDialogRef = () =>
   ({

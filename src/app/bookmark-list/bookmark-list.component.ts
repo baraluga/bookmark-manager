@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { filter, map, take } from 'rxjs/operators';
 import { BookmarkDeletionComponent } from '../bookmark-deletion';
 import { BookmarkFormComponent } from '../bookmark-form';
 import { BookmarksStoreService } from '../store';
@@ -14,6 +14,8 @@ import { Bookmark, BookmarkGroup } from '../store/bookmark-manager.models';
   providers: [BookmarksStoreService],
 })
 export class BookmarkListComponent {
+  private activeGroupChips = new BehaviorSubject<string[]>([]);
+
   readonly groups = Object.values(BookmarkGroup);
 
   bookmarks$: Observable<Bookmark[]>;
@@ -22,7 +24,7 @@ export class BookmarkListComponent {
     private bookmarks: BookmarksStoreService,
     private dialog: MatDialog,
   ) {
-    this.bookmarks$ = bookmarks.bookmarkList$;
+    this.bookmarks$ = this.getBookmarksStream();
   }
 
   onAddBookmark(): void {
@@ -52,6 +54,40 @@ export class BookmarkListComponent {
         filter((should) => should),
       )
       .subscribe(() => this.bookmarks.deleteBookmark(bookmark.id));
+  }
+
+  onActiveChipsChange(active: string[]): void {
+    this.activeGroupChips.next(active);
+  }
+
+  private getBookmarksStream(): Observable<Bookmark[]> {
+    return combineLatest([
+      this.bookmarks.bookmarkList$,
+      this.activeGroupChips,
+    ]).pipe(
+      map(([bookmarks, chips]) =>
+        this.filterMatchedBookmarkGroups(bookmarks, chips),
+      ),
+    );
+  }
+
+  private filterMatchedBookmarkGroups(
+    bookmarks: Bookmark[],
+    groups: string[],
+  ): Bookmark[] {
+    return bookmarks.filter((bookmark) =>
+      this.shouldIncludeBookmark(bookmark, groups),
+    );
+  }
+
+  private shouldIncludeBookmark(bookmark: Bookmark, groups: string[]): boolean {
+    return (
+      groups.length === 0 || groups.includes(this.resolveString(bookmark.group))
+    );
+  }
+
+  private resolveString(alleged: string | undefined): string {
+    return alleged || '';
   }
 
   private openBookmarkFormInADialog(
