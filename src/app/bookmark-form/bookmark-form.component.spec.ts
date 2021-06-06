@@ -1,4 +1,5 @@
 import { MatDialogRef } from '@angular/material/dialog';
+import { AbstractControl } from '@ngneat/reactive-forms';
 import { Bookmark, BookmarkGroup } from '../store';
 import { BookmarkFormComponent } from './bookmark-form.component';
 import { FormMode } from './bookmark-form.models';
@@ -47,6 +48,7 @@ describe('BookmarkFormComponent', () => {
 
   describe('On confirming the bookmarkForm transaction...', () => {
     it('should close the dialogRef with the value if form is valid', () => {
+      component.bookmarkForm.patchValue({ url: 'www.google.com' });
       component.onAddOrEdit();
       expect(closeSpy).toHaveBeenCalledWith(component.bookmarkForm.value);
     });
@@ -62,6 +64,23 @@ describe('BookmarkFormComponent', () => {
     expect(component.bookmarkGroups.length).toEqual(
       Object.values(BookmarkGroup).length,
     );
+  });
+
+  describe('On validating the url...', () => {
+    let control: AbstractControl<string>;
+
+    beforeEach(() => {
+      control = component.bookmarkForm.get('url');
+    });
+
+    it('should be valid if the url is... well... valid!', () => {
+      control.setValue('www.google.com');
+      expect(control.valid).toBeTruthy();
+    });
+    it('should be invalid if the url is... well... invalid!', () => {
+      control.setValue('www.google');
+      expect(control.valid).toBeFalsy();
+    });
   });
 });
 

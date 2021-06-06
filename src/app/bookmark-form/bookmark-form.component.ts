@@ -50,8 +50,14 @@ export class BookmarkFormComponent {
     return new FormGroup<Bookmark>({
       id: new FormControl(initial?.id),
       name: new FormControl(initial?.name, [Validators.required]),
-      url: new FormControl(initial?.url, [Validators.required]),
+      url: new FormControl(initial?.url, [
+        Validators.required,
+        Validators.pattern(URL_REGEX_PATTERN),
+      ]),
       group: new FormControl(initial?.group),
     });
   }
 }
+
+const URL_REGEX_PATTERN =
+  /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;

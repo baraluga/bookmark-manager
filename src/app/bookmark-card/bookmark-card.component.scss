@@ -11,7 +11,7 @@
 }
 
 .bookmark-card-name {
-  font-size: 24px;
+  font-size: 20px !important;
   font-weight: bold;
 }
 
@@ -32,13 +32,4 @@
   color: #aaa;
   font-weight: 300;
   width: 75%;
-}
-
-.bookmark-delete-confirmation {
-  padding: 8px 8px 0;
-  width: 200px;
-  text-align: center;
-  span {
-    color: #999;
-  }
 }

@@ -2,26 +2,64 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.3.
 
-## Development server
+## Solution
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+I've kept the state management simple by only creating actions, reducer, and a service that ties everything together.
 
-## Code scaffolding
+`bookmark-manager.actions.ts` -- contains 3 actions: add, remove, and edit
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+`bookmark-manager.reducer.ts` -- all necessary state changes for the 3 actions.
 
-## Build
+`bookmarks-store.service.ts` -- uses @ngrx/store's Store to dispatch above actions and provide the `bookmarkList$` observable
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+I generally make sure to work with flat models for easier processing. So the model looks like:
 
-## Running unit tests
+```
+export interface Bookmark {
+  readonly id: string;
+  readonly name: string;
+  readonly url: string;
+  readonly group?: BookmarkGroup;
+}
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+For the components, all of them are _modularized_ (declared and exported from their own modules). I've written a few:
 
-## Running end-to-end tests
+`bookmark-list.component` -- displays the list of bookmarks, button to add a new one, and an input-with-autocomplete field
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+`bookmark-card.component` -- represents a single `Bookmark` that can do several things: copy url to clipboard, edit, delete, and preview url
 
-## Further help
+`bookmark-form.component` -- serves as the form component opened in a `MatDialog` that has 3 inputs: name, url, and group
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+`bookmark-deletion.component` -- serves as the deletion confirmation opened in a `MatDialog`
+
+`input-chips.component` -- amalgamation of `MatInput`, `MatAutocomplete`, and `MatChips` that emits the active chips
+
+So to summarize the flow, it goes something like:
+
+1. Bookmarks will be managed by the store
+2. `BookmarkListComponent` lists down all existing bookmarks
+3. Once a user clicks on add button, it spawns a `bookmark-form.component` via `MatDialog`
+4. Once a user confirms, an `AddBookmarkAction` is dispatched with the form value
+5. From the list, once a user clicks on the edit button, it spawns the same `bookmark-form.component` with the existing data as `MAT_DIALOG_DATA`
+6. `bookmark-form.component` gets pre-populated using the data
+7. Once user confirms, an `EditBookmarkAction` is dispatched with the updated form value
+8. From the list, if a user clicks on the delete button, it spawns a `bookmark-deletion.component` via `MatDialog`
+9. Once user confirms, a `DeleteBookmarkAction` id dispatched with the bookmark ID
+10. From the list, if a user types/selects on the `Filter by group` field, it filters only matching bookmarks
+
+``
+
+## Test Coverage
+
+![alt code_coverage_screenshot](coverage.png "Test Code Coverage")
+
+## How do I run it?
+
+You don't have to! You can see it live here: https://baraluga-bookmark-manager.netlify.app/
+
+## Okay, but I really prefer it running on my local machine!
+
+1. clone the repository
+2. npm install
+3. npm run start
