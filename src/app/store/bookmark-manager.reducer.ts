@@ -1,9 +1,20 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { nanoid } from 'nanoid';
 import { BookmarksActions } from './bookmark-manager.actions';
-import { Bookmark, BookmarksState } from './bookmark-manager.models';
+import {
+  Bookmark,
+  BookmarkGroup,
+  BookmarksState,
+} from './bookmark-manager.models';
 
-export const INITIAL_STATE: BookmarksState = {};
+export const INITIAL_STATE: BookmarksState = {
+  sample: {
+    id: 'sample',
+    name: 'Sample Name',
+    url: 'www.hornpub.com',
+    group: BookmarkGroup.WORK,
+  },
+};
 export const BOOKMARKS_STATE_KEY = 'bookmarks';
 
 function onAddBookmark(

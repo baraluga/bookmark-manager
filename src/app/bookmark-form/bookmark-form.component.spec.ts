@@ -23,7 +23,7 @@ describe('BookmarkFormComponent', () => {
     });
 
     it('should not do so if no instance of bookmark is specified in construcotr', () => {
-      component = new BookmarkFormComponent({}, dialogRef);
+      component = new BookmarkFormComponent(undefined, dialogRef);
       const bookmarkForm = component.bookmarkForm.value;
       expect(bookmarkForm.name).toBeFalsy();
     });
@@ -35,7 +35,7 @@ describe('BookmarkFormComponent', () => {
       expect(component.mode).toEqual(FormMode.EDIT);
     });
     it('should set to ADD mode if no instance of bookmark is provided', () => {
-      component = new BookmarkFormComponent({}, dialogRef);
+      component = new BookmarkFormComponent(undefined, dialogRef);
       expect(component.mode).toEqual(FormMode.ADD);
     });
   });
@@ -65,7 +65,9 @@ describe('BookmarkFormComponent', () => {
   });
 });
 
-const mockBookmark = () => ({ id: '1', name: 'baraluga', url: 'hornpub.com' } as Bookmark);
-const mockDialogRef = () => ({
-  close: (_) => {},
-} as MatDialogRef<BookmarkFormComponent>);
+const mockBookmark = () =>
+  ({ id: '1', name: 'baraluga', url: 'hornpub.com' } as Bookmark);
+const mockDialogRef = () =>
+  ({
+    close: (_) => {},
+  } as MatDialogRef<BookmarkFormComponent>);

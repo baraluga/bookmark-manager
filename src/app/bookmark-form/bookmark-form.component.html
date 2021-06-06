@@ -23,18 +23,25 @@
           {{ group | titlecase }}
         </mat-option>
       </mat-select>
-      <mat-hint *ngIf="bookmarkForm?.value?.group">
+      <mat-hint *ngIf="!!!bookmarkForm?.value?.group">
         This bookmark will be "ungrouped"
       </mat-hint>
     </mat-form-field>
   </div>
   <div fxLayout="row" fxLayoutAlign="end end" fxLayoutGap="16px">
-    <button mat-button>CANCEL</button>
-    <button mat-flat-button *ngIf="mode === 'add'; else edit" color="primary">
+    <button mat-button (click)="onCancel()">CANCEL</button>
+    <button
+      mat-flat-button
+      *ngIf="mode === 'add'; else edit"
+      color="primary"
+      (click)="onAddOrEdit()"
+    >
       ADD
     </button>
     <ng-template #edit>
-      <button mat-flat-button>EDIT</button>
+      <button mat-flat-button (click)="onAddOrEdit()" color="primary">
+        EDIT
+      </button>
     </ng-template>
   </div>
 </div>

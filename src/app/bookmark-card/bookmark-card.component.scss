@@ -1,0 +1,48 @@
+@use '~@angular/material' as mat;
+
+.bookmark-card {
+  padding: 16px;
+  border-radius: 8px;
+  @include mat.elevation(2);
+  @include mat.elevation-transition();
+  &:hover {
+    @include mat.elevation(3);
+  }
+}
+
+.bookmark-card-actions {
+  button {
+    opacity: 0.5;
+
+    &:hover {
+      opacity: 1;
+      transition: ease-in-out 0.3s;
+    }
+  }
+}
+
+.bookmark-card-name {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.bookmark-card-url {
+  font-size: 16px;
+  color: #aaa;
+}
+
+.bookmark-card-group {
+  padding: 4px 16px;
+  background: #e91e6332;
+  border-radius: 4px;
+  font-weight: 300;
+}
+
+.bookmark-delete-confirmation {
+  padding: 8px 8px 0;
+  width: 200px;
+  text-align: center;
+  span {
+    color: #999;
+  }
+}

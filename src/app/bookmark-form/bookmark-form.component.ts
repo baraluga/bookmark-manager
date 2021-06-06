@@ -11,14 +11,14 @@ import { FormMode } from './bookmark-form.models';
   styleUrls: ['./bookmark-form.component.scss'],
 })
 export class BookmarkFormComponent {
-  readonly bookmarkForm;
+  readonly bookmarkForm: FormGroup;
 
   readonly mode: FormMode;
 
   readonly bookmarkGroups: string[];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) data: Partial<Bookmark>,
+    @Inject(MAT_DIALOG_DATA) data: Bookmark | undefined,
     private dialogRef: MatDialogRef<BookmarkFormComponent, Partial<Bookmark>>,
   ) {
     this.bookmarkForm = this.createBookmarkForm(data);
@@ -36,22 +36,22 @@ export class BookmarkFormComponent {
     this.dialogRef.close();
   }
 
-  private resolveMode(data: Partial<Bookmark>): FormMode {
+  private resolveMode(data: Bookmark | undefined): FormMode {
     return this.isObjectEmpty(data) ? FormMode.ADD : FormMode.EDIT;
   }
 
   private isObjectEmpty<T>(object: T): boolean {
-    return Object.keys(object).length === 0;
+    return Object.keys(object || {}).length === 0;
   }
 
   private createBookmarkForm(
-    initial: Partial<Bookmark>,
-  ): FormGroup<Partial<Bookmark>> {
-    const { name, group, url } = initial;
-    return new FormGroup<Partial<Bookmark>>({
-      name: new FormControl(name, [Validators.required]),
-      url: new FormControl(url, [Validators.required]),
-      group: new FormControl(group),
+    initial: Bookmark | undefined,
+  ): FormGroup<Bookmark> {
+    return new FormGroup<Bookmark>({
+      id: new FormControl(initial?.id),
+      name: new FormControl(initial?.name, [Validators.required]),
+      url: new FormControl(initial?.url, [Validators.required]),
+      group: new FormControl(initial?.group),
     });
   }
 }

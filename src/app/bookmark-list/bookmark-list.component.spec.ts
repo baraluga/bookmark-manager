@@ -48,17 +48,31 @@ describe('BookmarkManagerComponent', () => {
     });
     afterClosedSubject.next(mockBookmark());
   });
+
+  it('should open the dialog with the correct config', () => {
+    const openDialogSpy = spyOn(dialog, 'open').and.callThrough();
+    component.onAddBookmark();
+    expect(openDialogSpy).toHaveBeenCalledWith(BookmarkFormComponent, {
+      data: undefined,
+      disableClose: true,
+      width: '480px',
+    });
+  });
 });
 
-const mockService = () => ({
-  bookmarkList$: of([mockBookmark()]),
-  deleteBookmark: (_) => {},
-  addBookmark: (_) => {},
-  editBookmark: (_) => {},
-} as BookmarksStoreService);
-const mockBookmark = () => ({ id: '0', name: 'baraluga', url: 'hornpub.com' } as Bookmark);
+const mockService = () =>
+  ({
+    bookmarkList$: of([mockBookmark()]),
+    deleteBookmark: (_) => {},
+    addBookmark: (_) => {},
+    editBookmark: (_) => {},
+  } as BookmarksStoreService);
+const mockBookmark = () =>
+  ({ id: '0', name: 'baraluga', url: 'hornpub.com' } as Bookmark);
 const afterClosedSubject = new Subject<Partial<Bookmark>>();
-const mockDialogRef = () => ({
-  afterClosed: () => afterClosedSubject.asObservable(),
-} as MatDialogRef<BookmarkFormComponent>);
-const mockDialog = () => ({ open: (_: unknown) => mockDialogRef() } as MatDialog);
+const mockDialogRef = () =>
+  ({
+    afterClosed: () => afterClosedSubject.asObservable(),
+  } as MatDialogRef<BookmarkFormComponent>);
+const mockDialog = () =>
+  ({ open: (_: unknown) => mockDialogRef() } as MatDialog);

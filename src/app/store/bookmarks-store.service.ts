@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { BookmarksActions } from './bookmark-manager.actions';
 import { Bookmark } from './bookmark-manager.models';
 
@@ -10,7 +10,9 @@ export class BookmarksStoreService {
   readonly bookmarkList$: Observable<Bookmark[]>;
 
   constructor(private store: Store) {
-    this.bookmarkList$ = store.pipe(map((state) => Object.values(state)));
+    this.bookmarkList$ = store.pipe(
+      map((state: any) => Object.values(state.bookmarks)),
+    );
   }
 
   addBookmark(bookmark: Partial<Bookmark>): void {

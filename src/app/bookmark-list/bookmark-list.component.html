@@ -1,7 +1,17 @@
-<div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="32px">
+<div
+  fxLayout="column"
+  fxLayoutAlign="start stretch"
+  fxLayoutGap="32px"
+  class="bookmark-list"
+>
+  <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="16px">
+    <h1>Bookmark Manager</h1>
+    <mat-divider> </mat-divider>
+  </div>
+
   <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
     <div fxFlex></div>
-    <button mat-raised-button (click)="onAddBookmark()">
+    <button mat-raised-button (click)="onAddBookmark()" color="primary">
       ADD NEW BOOKMARK
     </button>
   </div>
@@ -10,7 +20,7 @@
       *ngFor="let bookmark of bookmarks$ | async"
       [data]="bookmark"
       (edit)="onEditBookmark(bookmark)"
-      (delete)="onDeleteBookmark(bookmark?.id)"
+      (delete)="onDeleteBookmark(bookmark.id)"
     ></bookmark-card>
   </div>
 </div>

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 import { BookmarkFormComponent } from '../bookmark-form';
 import { BookmarksStoreService } from '../store';
 import { Bookmark } from '../store/bookmark-manager.models';
@@ -23,14 +23,20 @@ export class BookmarkListComponent {
   }
 
   onAddBookmark(): void {
-    this.openBookmarkFormInADialog({} as Bookmark)
-      .pipe(take(1))
+    this.openBookmarkFormInADialog(undefined)
+      .pipe(
+        take(1),
+        filter((data) => !!data),
+      )
       .subscribe((bookmark) => this.bookmarks.addBookmark(bookmark));
   }
 
   onEditBookmark(bookmark: Bookmark): void {
     this.openBookmarkFormInADialog(bookmark)
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        filter((data) => !!data),
+      )
       .subscribe((bookmark) => this.bookmarks.editBookmark(bookmark));
   }
 
@@ -38,7 +44,13 @@ export class BookmarkListComponent {
     this.bookmarks.deleteBookmark(id);
   }
 
-  private openBookmarkFormInADialog(data: Bookmark): Observable<Bookmark> {
-    return this.dialog.open(BookmarkFormComponent, { data }).afterClosed();
+  private openBookmarkFormInADialog(data: Bookmark | undefined): Observable<Bookmark> {
+    return this.dialog
+      .open(BookmarkFormComponent, {
+        data,
+        disableClose: true,
+        width: '480px',
+      })
+      .afterClosed();
   }
 }
