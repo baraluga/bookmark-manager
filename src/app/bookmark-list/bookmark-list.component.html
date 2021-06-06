@@ -1,7 +1,7 @@
 <div
   fxLayout="column"
   fxLayoutAlign="start stretch"
-  fxLayoutGap="32px"
+  fxLayoutGap="16px"
   class="bookmark-list"
 >
   <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="16px">
@@ -9,18 +9,22 @@
     <mat-divider> </mat-divider>
   </div>
 
-  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
-    <div fxFlex></div>
-    <button mat-raised-button (click)="onAddBookmark()" color="primary">
-      ADD NEW BOOKMARK
-    </button>
+  <div fxLayout="row" fxLayoutAlign="start stretch" fxLayoutGap="16px">
+    <input-chips
+      fxFlex
+      label="Filter by group"
+      [options]="groups"
+    ></input-chips>
   </div>
   <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="16px">
     <bookmark-card
       *ngFor="let bookmark of bookmarks$ | async"
       [data]="bookmark"
       (edit)="onEditBookmark(bookmark)"
-      (delete)="onDeleteBookmark(bookmark.id)"
+      (delete)="onDeleteBookmark(bookmark)"
     ></bookmark-card>
   </div>
+  <button mat-fab color="primary" (click)="onAddBookmark()">
+    <mat-icon>add</mat-icon>
+  </button>
 </div>

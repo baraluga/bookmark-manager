@@ -6,7 +6,7 @@ import { BookmarksStoreService } from '../store';
 import { Bookmark } from '../store/bookmark-manager.models';
 import { BookmarkListComponent } from './bookmark-list.component';
 
-describe('BookmarkManagerComponent', () => {
+describe('BookmarkListComponent', () => {
   let service: BookmarksStoreService;
   let component: BookmarkListComponent;
   let dialog: MatDialog;
@@ -17,10 +17,14 @@ describe('BookmarkManagerComponent', () => {
     component = new BookmarkListComponent(service, dialog);
   });
 
-  it('should liase with store service for deleteBookmark', () => {
+  it('should liase with store service for deleteBookmark', (done) => {
     const spy = spyOn(service, 'deleteBookmark');
-    component.onDeleteBookmark('1');
-    expect(spy).toHaveBeenCalledWith('1');
+    component.onDeleteBookmark(mockBookmark());
+    afterClosedSubject.subscribe(() => {
+      expect(spy).toHaveBeenCalledWith('0');
+      done();
+    });
+    afterClosedSubject.next(mockBookmark());
   });
 
   it('should provide the bookmarks via store service', (done) => {

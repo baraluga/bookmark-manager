@@ -11,7 +11,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { BookmarkCardModule } from '../bookmark-card';
+import { BookmarkDeletionModule } from '../bookmark-deletion';
 import { BookmarkFormModule } from '../bookmark-form';
+import { InputChipsModule } from '../input-chips';
 import { BookmarkListComponent } from './bookmark-list.component';
 
 @NgModule({
@@ -30,6 +32,8 @@ import { BookmarkListComponent } from './bookmark-list.component';
     MatDialogModule,
     MatButtonModule,
     MatDividerModule,
+    InputChipsModule,
+    BookmarkDeletionModule,
   ],
   exports: [BookmarkListComponent],
 })

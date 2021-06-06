@@ -10,17 +10,6 @@
   }
 }
 
-.bookmark-card-actions {
-  button {
-    opacity: 0.5;
-
-    &:hover {
-      opacity: 1;
-      transition: ease-in-out 0.3s;
-    }
-  }
-}
-
 .bookmark-card-name {
   font-size: 24px;
   font-weight: bold;

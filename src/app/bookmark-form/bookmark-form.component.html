@@ -5,7 +5,15 @@
     fxLayoutGap="16px"
     [formGroup]="bookmarkForm"
   >
-    <h1>{{ mode | titlecase }} Bookmark</h1>
+    <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="16px">
+      <mat-icon *ngIf="mode === 'add'; else editIcon" color="primary">
+        add
+      </mat-icon>
+      <ng-template #editIcon>
+        <mat-icon color="primary">edit</mat-icon>
+      </ng-template>
+      <h1>{{ mode | titlecase }} Bookmark</h1>
+    </div>
     <mat-form-field>
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" />
