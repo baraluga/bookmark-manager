@@ -30,7 +30,9 @@
       </div>
     </div>
     <span class="bookmark-card-url">{{ data?.url }}</span>
-    <div class="bookmark-card-preview"></div>
+    <span class="bookmark-card-description">
+      {{ (linkPreview$ | async)?.description }}
+    </span>
   </div>
 
   <div fxLayout="row" fxLayoutAlign="end end" *ngIf="data?.group">

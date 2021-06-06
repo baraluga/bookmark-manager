@@ -8,11 +8,23 @@ import {
 } from './bookmark-manager.models';
 
 export const INITIAL_STATE: BookmarksState = {
-  sample: {
-    id: 'sample',
+  0: {
+    id: '0',
     name: 'Sample Name',
-    url: 'www.hornpub.com',
+    url: 'www.google.com',
     group: BookmarkGroup.WORK,
+  },
+  1: {
+    id: '1',
+    name: 'Another Bookmark',
+    url: 'www.reddit.com',
+    group: BookmarkGroup.LEISURE,
+  },
+  2: {
+    id: '2',
+    name: 'Yet Another Bookmark',
+    url: 'www.ynab.com',
+    group: BookmarkGroup.PERSONAL,
   },
 };
 export const BOOKMARKS_STATE_KEY = 'bookmarks';
