@@ -3,7 +3,7 @@ import { Component, ElementRef, Input, Output, ViewChild } from '@angular/core';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { FormControl } from '@ngneat/reactive-forms';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, startWith, withLatestFrom } from 'rxjs/operators';
 
 @Component({
   selector: 'input-chips',
@@ -60,10 +60,30 @@ export class InputChipsComponent {
   }
 
   private getFilteredOptionsStream(): Observable<string[]> {
-    return combineLatest([this.optionsSubject, this.activeChips]).pipe(
+    return combineLatest([
+      this.optionsSubject,
+      this.activeChips,
+      this.getInputControlValueChanges(),
+    ]).pipe(
       map(([options, chips]) =>
         options.filter((option) => !chips.includes(option)),
       ),
+      withLatestFrom(this.getInputControlValueChanges()),
+      map(([filtered, inputValue]) =>
+        filtered.filter((option) =>
+          this.ignoreCaseIncludes(option, inputValue),
+        ),
+      ),
+    );
+  }
+
+  private ignoreCaseIncludes(source: string, target: string): boolean {
+    return source.toLowerCase().includes(target.toLowerCase());
+  }
+
+  private getInputControlValueChanges(): Observable<string> {
+    return this.inputControl.valueChanges.pipe(
+      startWith(this.inputControl.value),
     );
   }
 }
